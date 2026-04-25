@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro Mini Calculator</title>
   <style>
     body {
-      font-family: Arial;
-      background-color: #222;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1a1a1a;
       margin: 0;
       display: flex;
       justify-content: center;
@@ -14,154 +15,180 @@
       min-height: 100vh;
     }
 
-    #game-zone {
-      
-      padding: 0px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px  #9c9393;
-    }
-
-    .kk {
-      border: 3px solid #333;
-      border-radius: 15px;
+    #calculator-container {
       padding: 20px;
-      background-color: #f9f9f9;
-      box-shadow: 0 0 10px rgb(0, 0, 0);
-      text-align: center;
+      background-color: #2d2d2d;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      width: 320px;
     }
 
-    .cal {
-      font-style: italic;
+    .display-screen {
+      background-color: #f4f4f4;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: right;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .cal-title {
+      font-size: 14px;
+      color: #888;
+      margin: 0 0 5px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .calculation-output {
+      color: #222;
+      font-size: 32px;
       font-weight: bold;
-      margin-top: 0;
-      margin-bottom: 10px;
+      margin: 0;
+      min-height: 40px;
+      word-wrap: break-word;
+      overflow-x: auto;
     }
 
-    .calculation {
-      color: rgb(0, 0, 0);
-      font-size: 45px;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      min-height: 50px;
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
     }
 
-    .calculator-button {
+    .btn {
       height: 60px;
-      width: 60px;
-      border-radius: 60px;
+      border-radius: 50%;
       border: none;
-      font-size: 26px;
+      font-size: 22px;
+      font-weight: 600;
       cursor: pointer;
-      margin: 5px;
+      transition: transform 0.1s, filter 0.2s;
     }
 
-    .gray-button {
-      background-color: rgb(51, 51, 51);
-      color: white;
-    }
+    .btn:active { transform: scale(0.95); }
 
-    .orange-button {
-      background-color: rgb(254, 160, 10);
-      color: white;
-    }
+    .gray-btn { background-color: #444; color: white; }
+    .gray-btn:hover { filter: brightness(1.3); }
 
-    .clear-button {
-      font-size: 17px;
+    .orange-btn { background-color: #ff9500; color: white; }
+    .orange-btn:hover { filter: brightness(1.2); }
+
+    .double-width {
+      grid-column: span 2;
+      border-radius: 30px;
     }
   </style>
 </head>
 <body>
 
-  <div id="game-zone">
-    <div class="kk">
-      <h3 class="cal">Mini Calculator</h3>
-      <p class="js-calculation calculation"></p>
-      <p>
-        <button class="calculator-button gray-button" onclick="updateCalculation('1');">1</button>
-        <button class="calculator-button gray-button" onclick="updateCalculation('2');">2</button>
-        <button class="calculator-button gray-button" onclick="updateCalculation('3');">3</button>
-        <button class="calculator-button orange-button" onclick="updateCalculation(' + ');">+</button>
-      </p>
-      <p>
-        <button class="calculator-button gray-button" onclick="updateCalculation('4');">4</button>
-        <button class="calculator-button gray-button" onclick="updateCalculation('5');">5</button>
-        <button class="calculator-button gray-button" onclick="updateCalculation('6');">6</button>
-        <button class="calculator-button orange-button" onclick="updateCalculation(' - ');">-</button>
-      </p>
-      <p>
-        <button class="calculator-button gray-button" onclick="updateCalculation('7');">7</button>
-        <button class="calculator-button gray-button" onclick="updateCalculation('8');">8</button>
-        <button class="calculator-button gray-button" onclick="updateCalculation('9');">9</button>
-        <button class="calculator-button orange-button" onclick="updateCalculation(' * ');">*</button>
-      </p>
-      <p>
-        <button class="calculator-button gray-button" onclick="updateCalculation('0');">0</button>
-        <button class="calculator-button gray-button" onclick="updateCalculation('.');">.</button>
-        <button class="calculator-button gray-button" onclick="calculate();">=</button>
-        <button class="calculator-button orange-button" onclick="updateCalculation(' / ');">/</button>
-      </p>
-      <p>
-        <!-- ADDED: Backspace/Delete button -->
-        <button class="calculator-button gray-button clear-button" onclick="backspace();">Del</button>
-       
-        <button class="calculator-button gray-button clear-button" onclick="clearCalculation();">Clear</button>
-      </p>
+  <div id="calculator-container">
+    <div class="display-screen">
+      <p class="cal-title">Mini Calculator</p>
+      <p id="display" class="calculation-output"></p>
+    </div>
+
+    <div class="button-grid">
+      <button class="btn gray-btn" onclick="updateCalculation('7')">7</button>
+      <button class="btn gray-btn" onclick="updateCalculation('8')">8</button>
+      <button class="btn gray-btn" onclick="updateCalculation('9')">9</button>
+      <button class="btn orange-btn" onclick="updateCalculation(' / ')">/</button>
+
+      <button class="btn gray-btn" onclick="updateCalculation('4')">4</button>
+      <button class="btn gray-btn" onclick="updateCalculation('5')">5</button>
+      <button class="btn gray-btn" onclick="updateCalculation('6')">6</button>
+      <button class="btn orange-btn" onclick="updateCalculation(' * ')">*</button>
+
+      <button class="btn gray-btn" onclick="updateCalculation('1')">1</button>
+      <button class="btn gray-btn" onclick="updateCalculation('2')">2</button>
+      <button class="btn gray-btn" onclick="updateCalculation('3')">3</button>
+      <button class="btn orange-btn" onclick="updateCalculation(' - ')">-</button>
+
+      <button class="btn gray-btn" onclick="updateCalculation('0')">0</button>
+      <button class="btn gray-btn" onclick="updateCalculation('.')">.</button>
+      <button class="btn orange-btn" onclick="calculate()">=</button>
+      <button class="btn orange-btn" onclick="updateCalculation(' + ')">+</button>
+
+      <button class="btn gray-btn double-width" onclick="backspace()">DEL</button>
+      <button class="btn gray-btn double-width" onclick="clearCalculation()">CLEAR</button>
     </div>
   </div>
 
   <script>
     let calculation = localStorage.getItem('calculation') || '';
+    const displayElement = document.getElementById('display');
+    
     displayCalculation();
 
     function updateCalculation(value) {
-      if (calculation === 'Error') {
-        calculation = '';
+      // Prevent consecutive operators
+      const operators = [' + ', ' - ', ' * ', ' / '];
+      const lastCharIsOperator = operators.some(op => calculation.endsWith(op));
+      const newValueIsOperator = operators.includes(value);
+
+      if (calculation === 'Error') calculation = '';
+
+      if (lastCharIsOperator && newValueIsOperator) {
+        // Replace old operator with new one
+        calculation = calculation.slice(0, -3) + value;
+      } else {
+        calculation += value;
       }
-      calculation += value;
+
       displayCalculation();
-      localStorage.setItem('calculation', calculation);
+      saveToStorage();
     }
 
     function calculate() {
-      if (calculation === '') return;
+      if (!calculation) return;
       try {
-        const validExpression = /^[0-9+\-*/.\s]+$/;
-        if (!validExpression.test(calculation)) {
-
-          throw new Error('Invalid input detected'); 
-        }
-     
-        const result = Function(`'use strict'; return (${calculation})`)();
-        calculation = result;
+        // Using Number() and toFixed() to fix JS floating point math issues (like 0.1+0.2)
+        let result = Function(`'use strict'; return (${calculation})`)();
+        calculation = Number(result.toFixed(10)).toString();
       } catch {
         calculation = 'Error';
       }
       displayCalculation();
-      localStorage.setItem('calculation', calculation);
+      saveToStorage();
     }
 
     function clearCalculation() {
       calculation = '';
       displayCalculation();
-      localStorage.setItem('calculation', calculation);
+      saveToStorage();
     }
 
     function backspace() {
-      if (calculation === 'Error') {
-        clearCalculation();
+      if (calculation === 'Error') return clearCalculation();
+      
+      // If ends with an operator (which has spaces), remove 3 chars, else remove 1
+      if (calculation.endsWith(' ')) {
+        calculation = calculation.slice(0, -3);
       } else {
-   
         calculation = calculation.slice(0, -1);
-        displayCalculation();
-        localStorage.setItem('calculation', calculation);
       }
+      displayCalculation();
+      saveToStorage();
     }
 
     function displayCalculation() {
-      document.querySelector('.js-calculation').innerHTML = calculation;
+      displayElement.innerText = calculation || '0';
     }
-  </script>
 
+    function saveToStorage() {
+      localStorage.setItem('calculation', calculation);
+    }
+
+    // NEW: Physical Keyboard Support
+    document.addEventListener('keydown', (event) => {
+      const key = event.key;
+      if (/[0-9]/.test(key)) updateCalculation(key);
+      if (['+', '-', '*', '/'].includes(key)) updateCalculation(` ${key} `);
+      if (key === 'Enter' || key === '=') calculate();
+      if (key === 'Backspace') backspace();
+      if (key === 'Escape') clearCalculation();
+      if (key === '.') updateCalculation('.');
+    });
+  </script>
 </body>
 </html>
-
