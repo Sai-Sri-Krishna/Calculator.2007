@@ -39,6 +39,6 @@ You can click the buttons, or just use your keyboard:
 ## 🚀 Getting Started
 
 If you want to play with the code, you can clone the repo or view the live version here:
-[**Launch Live Calculator**](https://sai-sri-krishna.github.io/Calculator.2007/)
+[**Launch Live Calculator**](https://sai-sri-krishna.github.io/Calculator/)
 
 
